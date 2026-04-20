@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sermons – ICANJ</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.series-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px;}
+.series-card{background:var(--bg-white);border-radius:12px;overflow:hidden;border:1px solid #e8e8e8;transition:all 0.2s;cursor:pointer;}
+.series-card:hover{border-color:var(--teal);transform:translateY(-2px);}
+.series-thumb{width:100%;height:160px;object-fit:cover;display:block;background:#e0f7f9;}
+.series-thumb-placeholder{width:100%;height:160px;background:linear-gradient(135deg,#e0f7f9,#b2ebf2);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#888;gap:4px;}
+.series-body-wrap{padding:20px;}
+.series-count{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.series-title{font-size:18px;font-weight:700;color:#1a1a1a !important;margin-bottom:8px;}
+.series-body{font-size:14px;color:#555 !important;line-height:1.7;}
+.series-count{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.series-title{font-size:20px;font-weight:700;color:var(--teal);margin-bottom:8px;}
+.series-body{font-size:14px;color:#555555;line-height:1.7;}
+
+.ls-section{background:var(--dark);}
+.ls-inner{max-width:1200px;margin:0 auto;padding:72px 52px;display:grid;grid-template-columns:1fr 380px;gap:0;}
+.ls-left{padding-right:52px;border-right:1px solid rgba(0,0,0,0.08);}
+.ls-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.3);padding:5px 14px;border-radius:100px;margin-bottom:20px;}
+.ls-dot{width:7px;height:7px;border-radius:50%;background:#ef4444;animation:pulse 1.4s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.ls-badge span{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#ef4444;}
+.ls-title{font-size:clamp(32px,4.5vw,56px);font-weight:800;color:#fff;line-height:1.06;letter-spacing:-0.03em;margin-bottom:14px;}
+.ls-title em{font-style:normal;color:var(--teal);}
+.ls-sub{font-size:15px;color:var(--body);line-height:1.75;max-width:400px;margin-bottom:32px;}
+.ls-schedule{border-top:1px solid rgba(255,255,255,0.08);margin-bottom:32px;}
+.ls-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid rgba(0,0,0,0.07);}
+.ls-name{font-size:16px;font-weight:500;color:var(--ink);}
+.ls-time{font-size:12px;font-weight:700;letter-spacing:0.1em;color:var(--teal);}
+.ls-ctas{display:flex;gap:12px;flex-wrap:wrap;}
+
+.ls-right{background:rgba(0,0,0,0.2);display:flex;flex-direction:column;}
+.ls-right-hdr{padding:20px 24px;border-bottom:1px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-between;}
+.ls-right-lbl{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+.vid-item{border-bottom:1px solid rgba(0,0,0,0.07);}
+.vid-embed{position:relative;padding-top:56.25%;}
+.vid-embed iframe{position:absolute;top:0;left:0;width:100%;height:100%;}
+.vid-info{padding:14px 20px;}
+.vid-tag{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:3px 10px;border-radius:100px;display:inline-block;margin-bottom:6px;}
+.vid-tag-bs{background:rgba(0,197,205,0.15);color:var(--teal);}
+.vid-tag-sun{background:rgba(0,0,0,0.08);color:rgba(255,255,255,0.4);}
+.vid-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;line-height:1.35;}
+.vid-meta{font-size:11px;color:var(--muted);}
+.ls-plats{padding:16px 20px;border-top:1px solid rgba(0,0,0,0.08);display:flex;gap:8px;flex-wrap:wrap;}
+.ls-plat{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--border);border-radius:100px;color:rgba(255,255,255,0.35);text-decoration:none;transition:all 0.2s;}
+.ls-plat:hover{border-color:var(--teal);color:var(--teal);}
+
+@media(max-width:1024px){
+  .series-grid{grid-template-columns:1fr 1fr;}
+  .ls-inner{grid-template-columns:1fr;padding:48px 16px;}
+  .ls-left{padding-right:0;border-right:none;border-bottom:1px solid rgba(0,0,0,0.08);padding-bottom:40px;margin-bottom:0;}
+}
+@media(max-width:480px){.series-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="header.js"></script>
+<div class="page-masthead"><div class="container"><span class="eyebrow">Messages</span><h1>Sermons</h1><p>Verse-by-verse Bible teaching — available to watch, stream, and listen any time.</p></div></div>
+
+<section class="section" style="background:var(--bg-white);">
+  <div class="container">
+    <span class="eyebrow">Series</span>
+    <h2 class="section-title">Current &amp; Recent Series</h2>
+    <div class="series-grid">
+      <div class="series-card"><img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=600&h=320&fit=crop&q=80" alt="Walking Through Romans" class="series-thumb" onerror="this.outerHTML='<div class=\'series-thumb-placeholder\'>📷<span>Series Thumbnail</span></div>'"/><div class="series-body-wrap"><div class="series-count">12 Parts · Ongoing</div><div class="series-title">Walking Through Romans</div><p class="series-body">An in-depth verse-by-verse study of Paul's letter to the Romans — Wednesday Bible Study series.</p></div></div>
+      <div class="series-card"><img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=600&h=320&fit=crop&q=80" alt="Faith Over Fear" class="series-thumb" onerror="this.outerHTML='<div class=\'series-thumb-placeholder\'>📷<span>Series Thumbnail</span></div>'"/><div class="series-body-wrap"><div class="series-count">6 Parts · Completed</div><div class="series-title">Faith Over Fear</div><p class="series-body">What Scripture says about trusting God in times of uncertainty, loss, and suffering.</p></div></div>
+      <div class="series-card"><img src="https://images.unsplash.com/photo-1476725376606-78bd56004997?w=600&h=320&fit=crop&q=80" alt="The Power of Prayer" class="series-thumb" onerror="this.outerHTML='<div class=\'series-thumb-placeholder\'>📷<span>Series Thumbnail</span></div>'"/><div class="series-body-wrap"><div class="series-count">8 Parts · Completed</div><div class="series-title">The Power of Prayer</div><p class="series-body">A study of what Jesus and the Apostles taught about prayer and communion with God.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="ls-section">
+  <div class="ls-inner">
+    <div class="ls-left">
+      <div class="ls-badge"><span class="ls-dot"></span><span>Live Every Sunday</span></div>
+      <div class="ls-title">Watch Us<br/><em>Live or On‑Demand</em></div>
+      <p class="ls-sub">Every Sunday service streams in real time — and every message is uploaded the same day.</p>
+      <div class="ls-schedule">
+        <div class="ls-row"><span class="ls-name">Sunday Morning Worship</span><span class="ls-time">10:00 AM</span></div>
+        <div class="ls-row"><span class="ls-name">Malayalam Service</span><span class="ls-time">12:30 PM</span></div>
+        <div class="ls-row"><span class="ls-name">Wednesday Bible Study</span><span class="ls-time">7:30 PM</span></div>
+      </div>
+      <div class="ls-ctas">
+        <a href="https://www.youtube.com/@ICANJ" target="_blank" class="btn btn-primary btn-arrow">Watch on YouTube</a>
+        <a href="https://open.spotify.com/show/79ZreA0Kmp0KERqYSTQJQE" target="_blank" class="btn btn-outline-light">Listen on Spotify</a>
+      </div>
+    </div>
+    <div class="ls-right">
+      <div class="ls-right-hdr"><span class="ls-right-lbl">Latest Messages</span><span class="ls-right-lbl" style="color:rgba(0,197,205,0.5);">New every week</span></div>
+      <div class="vid-item"><div class="vid-embed"><iframe src="https://www.youtube.com/embed/7fSo8N4GCF0?start=5511&rel=0&modestbranding=1" title="Romans 8:28" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="vid-info"><span class="vid-tag vid-tag-bs">Bible Study</span><div class="vid-title">Romans 8:28 — All Things Work Together</div><div class="vid-meta">Mar 19, 2026 · Walking Through Romans</div></div></div>
+      <div class="vid-item"><div class="vid-embed"><iframe src="https://www.youtube.com/embed/zb6_YZoizYs?start=123&rel=0&modestbranding=1" title="Lamentations" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="vid-info"><span class="vid-tag vid-tag-sun">Sunday Sermon</span><div class="vid-title">When God Seems Silent — Lamentations</div><div class="vid-meta">Mar 16, 2026 · Special Message</div></div></div>
+      <div class="vid-item"><div class="vid-embed"><iframe src="https://www.youtube.com/embed/cw8agm1SdZ4?start=20&rel=0&modestbranding=1" title="Romans 8:1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="vid-info"><span class="vid-tag vid-tag-bs">Bible Study</span><div class="vid-title">Romans 8:1 — No Condemnation in Christ</div><div class="vid-meta">Mar 12, 2026 · Walking Through Romans</div></div></div>
+      <div class="ls-plats">
+        <a href="https://www.youtube.com/@ICANJ" target="_blank" class="ls-plat">YouTube</a>
+        <a href="https://open.spotify.com/show/79ZreA0Kmp0KERqYSTQJQE" target="_blank" class="ls-plat">Spotify</a>
+        <a href="https://podcasts.apple.com/us/podcast/walking-through-the-word-verse-by-verse-in-depth-bible-study/id1726749438" target="_blank" class="ls-plat">Apple Podcasts</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="verse-band"><blockquote><p>"All Scripture is breathed out by God and profitable for teaching, for reproof, for correction, and for training in righteousness."</p><cite>2 Timothy 3 : 16</cite></blockquote></div>
+
+<script src="footer.js"></script>
+<script src="color-manager-widget.js"></script>
+</body>
+</html>

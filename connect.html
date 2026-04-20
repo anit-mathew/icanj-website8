@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Connect – ICANJ</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.connect-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px;}
+.form-panel{background:var(--bg-white);border-radius:14px;padding:36px;border:1px solid #e8e8e8;}
+.fp-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.form-panel h3{font-size:24px;font-weight:800;color:#1a1a1a;margin-bottom:6px;letter-spacing:-0.02em;}
+.form-panel .fp-sub{font-size:14px;color:#555555;margin-bottom:24px;line-height:1.65;}
+.right-stack{display:flex;flex-direction:column;gap:20px;}
+
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px;}
+.info-card{background:var(--bg-white);border-radius:12px;padding:24px;border:1px solid #e8e8e8;}
+.ic-key{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.ic-val{font-size:16px;font-weight:600;color:var(--teal);line-height:1.5;}
+
+.social-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px;}
+.soc-card{background:var(--bg-white);border-radius:12px;padding:24px;border:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between;transition:border-color 0.2s;cursor:pointer;text-decoration:none;color:inherit;}
+.soc-card:hover{border-color:var(--teal);}
+.soc-name{font-size:18px;font-weight:700;color:var(--teal);margin-bottom:3px;}
+.soc-handle{font-size:13px;color:#888888;}
+.soc-arrow{font-size:22px;color:var(--border-mid);transition:all 0.2s;}
+.soc-card:hover .soc-arrow{color:var(--teal);transform:translateX(4px);}
+
+@media(max-width:1024px){
+  .connect-grid{grid-template-columns:1fr;}
+  .info-grid{grid-template-columns:1fr 1fr;}
+  .social-grid{grid-template-columns:1fr;}
+  .form-panel{padding:24px 16px;}
+}
+@media(max-width:480px){
+  .info-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="header.js"></script>
+<div class="page-masthead"><div class="container"><span class="eyebrow">Reach Out</span><h1>Connect With Us</h1><p>Whether you are new, curious, or ready to serve — we would love to hear from you.</p></div></div>
+
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <span class="eyebrow">Get in Touch</span>
+    <h2 class="section-title">How Can We Help?</h2>
+    <div class="connect-grid">
+      <div class="form-panel">
+        <div class="fp-eyebrow">New Here</div>
+        <h3>First-Time Visitor</h3>
+        <p class="fp-sub">Fill out your details and we will reach out to welcome you personally before your first Sunday.</p>
+        <div class="field-row"><div class="field"><label>First Name</label><input type="text" placeholder="First name"/></div><div class="field"><label>Last Name</label><input type="text" placeholder="Last name"/></div></div>
+        <div class="field"><label>Email Address</label><input type="email" placeholder="your@email.com"/></div>
+        <div class="field"><label>Phone (Optional)</label><input type="tel" placeholder="(123) 456-7890"/></div>
+        <div class="field"><label>How did you hear about us?</label><select><option value="">Please select…</option><option>Friend or Family</option><option>Google Search</option><option>Social Media</option><option>Drove Past</option><option>Other</option></select></div>
+        <div class="field"><label>Anything you'd like us to know?</label><textarea placeholder="Questions, prayer requests, or just a hello…"></textarea></div>
+        <button class="btn btn-primary btn-arrow" style="width:100%;justify-content:center;">Send My Connect Card</button>
+      </div>
+      <div class="right-stack">
+        <div class="form-panel">
+          <div class="fp-eyebrow">Prayer</div>
+          <h3>Prayer Request</h3>
+          <p class="fp-sub">Our pastoral team prays over every request. Nothing shared is too small or too large.</p>
+          <div class="field"><label>Your Name (Optional)</label><input type="text" placeholder="First name"/></div>
+          <div class="field"><label>Your Request</label><textarea placeholder="Share what is on your heart…"></textarea></div>
+          <button class="btn btn-primary" style="width:100%;justify-content:center;">Submit Prayer Request</button>
+        </div>
+        <div class="form-panel">
+          <div class="fp-eyebrow">Serve</div>
+          <h3>Volunteer Sign-Up</h3>
+          <p class="fp-sub">There is a place for you at ICANJ — tell us where you feel called to serve.</p>
+          <div class="field"><label>Name &amp; Email</label><input type="text" placeholder="Name and email address"/></div>
+          <div class="field"><label>Area of Interest</label><select><option value="">Please select…</option><option>Children's Ministry</option><option>Youth Ministry</option><option>Worship Team</option><option>Hospitality &amp; Greeting</option><option>Outreach &amp; Missions</option><option>Media &amp; Technology</option><option>Other</option></select></div>
+          <button class="btn btn-dark btn-arrow" style="width:100%;justify-content:center;">I Want to Serve</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-white);">
+  <div class="container">
+    <span class="eyebrow">Contact Information</span>
+    <h2 class="section-title">Find Us</h2>
+    <div class="info-grid">
+      <div class="info-card"><div class="ic-key">Address</div><div class="ic-val">Hackensack, NJ<br/>Bergen County, New Jersey</div></div>
+      <div class="info-card"><div class="ic-key">Email</div><div class="ic-val"><a href="/cdn-cgi/l/email-protection#365f585059765f5557585c18594451" style="color:var(--teal);"><span class="__cf_email__" data-cfemail="b4dddad2dbf4ddd7d5dade9adbc6d3">[email&#160;protected]</span></a></div></div>
+      <div class="info-card"><div class="ic-key">Office Hours</div><div class="ic-val">Monday – Friday<br/>9:00 AM – 5:00 PM</div></div>
+      <div class="info-card"><div class="ic-key">Pastoral Care</div><div class="ic-val">For urgent needs,<br/>please email us directly</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <span class="eyebrow">Follow Along</span>
+    <h2 class="section-title">Find Us Online</h2>
+    <div class="social-grid">
+      <a href="https://www.facebook.com/ICANJ/" target="_blank" class="soc-card"><div><div class="soc-name">Facebook</div><div class="soc-handle">@ICANJ</div></div><span class="soc-arrow">→</span></a>
+      <a href="https://www.instagram.com/ica.nj/" target="_blank" class="soc-card"><div><div class="soc-name">Instagram</div><div class="soc-handle">@ica.nj</div></div><span class="soc-arrow">→</span></a>
+      <a href="https://www.youtube.com/@ICANJ" target="_blank" class="soc-card"><div><div class="soc-name">YouTube</div><div class="soc-handle">@ICANJ</div></div><span class="soc-arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="verse-band"><blockquote><p>"Draw near to God, and 

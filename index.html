@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ICANJ – India Christian Assembly, New Jersey</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* HERO */
+.hero{position:relative;min-height:calc(100vh - 108px);display:flex;align-items:center;justify-content:center;overflow:hidden;background:#1a1a1a;}
+.hero-vid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.hero-vid iframe{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:56.25vw;min-height:100%;pointer-events:none;opacity:0.55;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,30,30,0.88) 0%,rgba(30,30,30,0.6) 60%,rgba(0,100,160,0.18) 100%);}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;max-width:820px;}
+.hero h1{font-family:'Inter',sans-serif;font-size:clamp(40px,6.5vw,82px);font-weight:800;color:#fff;line-height:1.06;letter-spacing:-0.04em;margin-bottom:18px;}
+.hero h1 em{font-style:normal;color:var(--teal);}
+.hero-sub{font-size:18px;font-weight:400;color:rgba(255,255,255,0.6);line-height:1.7;max-width:500px;margin:0 auto 14px;}
+.hero-location{font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(0,197,205,0.85);margin-bottom:32px;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.hero-scroll-line{width:1px;height:40px;background:rgba(255,255,255,0.15);}
+.hero-scroll span{font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.2);}
+
+/* NEW HERE STRIP */
+.new-here-strip{background:var(--teal);}
+.new-here-inner{max-width:1200px;margin:0 auto;padding:0 52px;display:grid;grid-template-columns:auto 1px 1fr 1px 1fr 1px 1fr;align-items:stretch;}
+.nh-label{padding:22px 32px 22px 0;display:flex;align-items:center;}
+.nh-label span{font-size:11px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.75);}
+.nh-sep{background:rgba(255,255,255,0.2);}
+.nh-item{padding:22px 28px;display:flex;align-items:center;gap:14px;}
+.nh-icon{font-size:20px;flex-shrink:0;}
+.nh-text-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:3px;}
+.nh-text-val{font-size:14px;font-weight:700;color:#fff;}
+
+/* WHAT TO EXPECT */
+.expect-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px;}
+.exp-card{background:var(--bg-white);border-radius:12px;padding:24px;border:1px solid var(--border);}
+.exp-icon{font-size:28px;margin-bottom:12px;}
+.exp-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.exp-body{font-size:13px;color:#666;line-height:1.65;}
+
+/* SERVICE TIMES */
+.times-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px;}
+.time-card{background:var(--bg-white);border-radius:12px;padding:28px;border:1px solid var(--border);display:flex;flex-direction:column;gap:8px;}
+.time-day{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);}
+.time-name{font-size:17px;font-weight:700;color:var(--ink);}
+.time-hour{font-size:28px;font-weight:800;color:var(--teal);letter-spacing:-0.02em;}
+.time-note{font-size:12px;color:#888;margin-top:2px;}
+
+/* PASTOR */
+.pastor-card{background:var(--bg-white);border:1px solid var(--border);border-radius:14px;padding:32px;display:flex;align-items:center;gap:24px;margin-top:48px;}
+.pastor-av{width:88px;height:88px;border-radius:50%;background:#e0f7f9;border:3px solid var(--teal);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.pastor-av img{width:100%;height:100%;object-fit:cover;}
+.pastor-av-fallback{font-size:28px;font-weight:800;color:var(--teal);}
+.pastor-name{font-size:20px;font-weight:800;color:#1a1a1a;letter-spacing:-0.02em;margin-bottom:4px;}
+.pastor-role{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.pastor-quote{font-size:15px;color:#555;line-height:1.75;font-style:italic;}
+
+/* STATS */
+.stats-band{background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.stats-inner{max-width:1200px;margin:0 auto;padding:0 52px;display:grid;grid-template-columns:repeat(4,1fr);}
+.stat{padding:44px 32px;border-right:1px solid var(--border);text-align:center;}
+.stat:last-child{border-right:none;}
+.stat-n{font-size:50px;font-weight:800;color:var(--teal);letter-spacing:-0.03em;line-height:1;margin-bottom:8px;}
+.stat-n b{color:var(--teal);}
+.stat-l{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
+
+/* SERMON */
+.sermon-embed{border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#1a1a1a;margin-top:32px;}
+.sermon-embed iframe{width:100%;height:100%;border:none;}
+
+/* NEXT STEPS */
+.connect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:32px;}
+.cn-card{background:var(--bg-white);border-radius:12px;padding:24px;display:flex;align-items:center;gap:18px;border:1px solid var(--border);transition:border-color 0.2s;cursor:pointer;text-decoration:none;color:inherit;}
+.cn-card:hover{border-color:var(--teal);}
+.cn-icon{width:44px;height:44px;border-radius:10px;background:var(--teal-light);border:1px solid rgba(0,197,205,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cn-icon-dot{width:18px;height:18px;background:var(--teal);border-radius:4px;}
+.cn-title{font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:4px;}
+.cn-sub{font-size:13px;color:#666;line-height:1.5;}
+
+@media(max-width:1024px){
+  .hero{min-height:auto;padding:100px 0 80px;}
+  .hero-scroll{display:none;}
+  .new-here-inner{grid-template-columns:1fr;padding:0 16px;}
+  .nh-label{display:none;}
+  .nh-sep{height:1px;width:100%;display:block;}
+  .nh-item{padding:14px 0;}
+  .expect-grid{grid-template-columns:1fr 1fr;}
+  .times-grid{grid-template-columns:1fr;}
+  .stats-inner{padding:0 16px;grid-template-columns:repeat(2,1fr);}
+  .stat{padding:28px 16px;}
+  .connect-grid{grid-template-columns:1fr;}
+  .pastor-card{flex-direction:column;text-align:center;}
+}
+@media(max-width:480px){
+  .hero h1{font-size:36px;}
+  .stat-n{font-size:38px;}
+  .expect-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="header.js"></script>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-vid">
+    <iframe src="https://www.youtube.com/embed/J9h4VWP13VI?autoplay=1&mute=1&loop=1&playlist=J9h4VWP13VI&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&playsinline=1&start=8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="Hero background"></iframe>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>A place you can belong<br/>before you <em>believe</em></h1>
+    <p class="hero-sub">You don't need to have it all figured out. Come as you are.</p>
+    <div class="hero-location">📍 Hackensack, New Jersey &nbsp;·&nbsp; Sundays at 10:00 AM</div>
+    <div class="hero-btns">
+      <a href="visit.html" class="btn btn-primary btn-arrow">Plan Your Visit</a>
+      <a href="sermons.html" class="btn btn-outline-light">Watch Online</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<!-- ══ NEW HERE STRIP — key info visible immediately ══ -->
+<div class="new-here-strip">
+  <div class="new-here-inner">
+    <div class="nh-label"><span>New Here?</span></div>
+    <div class="nh-sep"></div>
+    <div class="nh-item">
+      <div class="nh-icon">📍</div>
+      <div><div class="nh-text-label">Location</div><div class="nh-text-val">Hackensack, NJ</div></div>
+    </div>
+    <div class="nh-sep"></div>
+    <div class="nh-item">
+      <div class="nh-icon">⏰</div>
+      <div><div class="nh-text-label">Sundays</div><div class="nh-text-val">10:00 AM &amp; 12:30 PM</div></div>
+    </div>
+    <div class="nh-sep"></div>
+    <div class="nh-item">
+      <div class="nh-icon">👧</div>
+      <div><div class="nh-text-label">Kids Program</div><div class="nh-text-val">Ages 4+ at 10 AM</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WHAT TO EXPECT ══ -->
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <span class="eyebrow">First Time Here?</span>
+    <h2 class="section-title">What to Expect</h2>
+    <div class="expect-grid">
+      <div class="exp-card">
+        <div class="exp-icon">🙌</div>
+        <div class="exp-title">Warm Welcome</div>
+        <div class="exp-body">Our team greets you at the door. No pressure, no spotlight moments — just a genuine hello.</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-icon">🎵</div>
+        <div class="exp-title">Live Worship + Message</div>
+        <div class="exp-body">Contemporary music followed by a practical message from the Bible. About 90 minutes total.</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-icon">👦</div>
+        <div class="exp-title">Kids Are Welcome</div>
+        <div class="exp-body">Safe, fun kids program during the 10 AM service for ages 4 and up. Check in at the foyer.</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-icon">👗</div>
+        <div class="exp-title">Come As You Are</div>
+        <div class="exp-body">No dress code. Casual, smart-casual, traditional — whatever you're comfortable in.</div>
+      </div>
+    </div>
+    <div style="margin-top:28px;">
+      <a href="visit.html" class="btn btn-dark btn-arrow">Full Visitor Guide</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICE TIMES ══ -->
+<section class="section" style="background:var(--bg-white);">
+  <div class="container">
+    <span class="eyebrow">Join Us</span>
+    <h2 class="section-title">Service Times</h2>
+    <div class="times-grid">
+      <div class="time-card">
+        <div class="time-day">Every Sunday</div>
+        <div class="time-name">Morning Worship (English)</div>
+        <div class="time-hour">10:00 AM</div>
+        <div class="time-note">Kids program available · All ages welcome</div>
+      </div>
+      <div class="time-card">
+        <div class="time-day">Every Sunday</div>
+        <div class="time-name">Malayalam Service</div>
+        <div class="time-hour">12:30 PM</div>
+        <div class="time-note">Main sanctuary</div>
+      </div>
+      <div class="time-card">
+        <div class="time-day">Every Wednesday</div>
+        <div class="time-name">Bible Study</div>
+        <div class="time-hour">7:30 PM</div>
+        <div class="time-note">Currently in Romans · Open to all</div>
+      </div>
+    </div>
+    <div class="pastor-card">
+      <div class="pastor-av">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&q=80" alt="Pr Finney Thomas" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <span class="pastor-av-fallback" style="display:none;">FT</span>
+      </div>
+      <div>
+        <div class="pastor-name">Pr Finney Thomas</div>
+        <div class="pastor-role">Senior Pastor</div>
+        <div class="pastor-quote">"We are a community of grace — where every person is seen, known, and loved. Whether this is your first Sunday or your five hundredth, you belong here."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS ══ -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-n">25<b>+</b></div><div class="stat-l">Years of Ministry</div></div>
+    <div class="stat"><div class="stat-n">3<b>×</b></div><div class="stat-l">Weekly Services</div></div>
+    <div class="stat"><div class="stat-n">6</div><div class="stat-l">Active Ministries</div></div>
+    <div class="stat"><div class="stat-n"><b>∞</b></div><div class="stat-l">Grace Available</div></div>
+  </div>
+</div>
+
+<!-- ══ WATCH A SERMON ══ -->
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container" style="max-width:860px;">
+    <span class="eyebrow">Watch a Message</span>
+    <h2 class="section-title">See What We're About</h2>
+    <p class="section-body">Not ready to visit in person? Watch a recent message and get a feel for who we are.</p>
+    <div class="sermon-embed">
+      <iframe src="https://www.youtube.com/embed/7fSo8N4GCF0?start=5511&rel=0&modestbranding=1" title="Romans 8:28 — All Things Work Together" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="sermons.html" class="btn btn-primary btn-arrow">More Sermons</a>
+      <a href="https://open.spotify.com/show/79ZreA0Kmp0KERqYSTQJQE" target="_blank" class="btn btn-outline-dark">Listen on Spotify</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEXT STEPS ══ -->
+<section class="section" style="background:var(--bg-white);">
+  <div class="container">
+    <span class="eyebrow">Get Involved</span>
+    <h2 class="section-title">Your Next Step</h2>
+    <div class="connect-grid">
+      <a href="visit.html" class="cn-card"><div class="cn-icon"><div class="cn-icon-dot"></div></div><div><div class="cn-title">Plan Your Visit</div><div class="cn-sub">Directions, parking &amp; what happens when you walk in.</div></div></a>
+      <a href="ministries.html" class="cn-card"><div class="cn-icon"><div class="cn-icon-dot"></div></div><div><div class="cn-title">Find Your Community</div><div class="cn-sub">Children, youth, worship, men's &amp; women's groups.</div></div></a>
+      <a href="connect.html" class="cn-card"><div class="cn-icon"><div class="cn-icon-dot"></div></div><div><div class="cn-title">Submit a Prayer Request</div><div class="cn-sub">Our pastoral team prays over every request received.</div></div></a>
+      <a href="https://icanj.churchcenter.com/giving" target="_blank" class="cn-card"><div class="cn-icon"><div class="cn-icon-dot"></div></div><div><div class="cn-title">Give Online</div><div class="cn-sub">Support our ministries, outreach &amp; missions.</div></div></a>
+    </div>
+  </div>
+</section>
+
+<script src="footer.js"></script>
+<script src="color-manager-widget.js"></script>
+</body>
+</html>

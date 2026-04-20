@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ICANJ Color Manager</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#f0f0f0;color:#1a1a1a;height:100dvh;display:flex;flex-direction:column;overflow:hidden;}
+
+/* TOP BAR */
+.topbar{background:#1a1a1a;padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:8px;}
+.topbar-logo{font-size:13px;font-weight:800;color:#fff;letter-spacing:-0.02em;white-space:nowrap;}
+.topbar-logo span{color:#00C5CD;}
+.topbar-actions{display:flex;gap:6px;align-items:center;}
+.tb-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:7px 14px;border-radius:6px;cursor:pointer;border:none;transition:all 0.2s;white-space:nowrap;}
+.tb-btn-outline{background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.2);}
+.tb-btn-outline:hover{color:#fff;border-color:rgba(255,255,255,0.5);}
+.tb-btn-teal{background:#00C5CD;color:#fff;}
+.tb-btn-teal:hover{background:#00a8b5;}
+
+/* MOBILE PANEL TOGGLE */
+.panel-toggle{display:none;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;cursor:pointer;color:#fff;font-size:16px;flex-shrink:0;}
+.panel-toggle:hover{background:rgba(255,255,255,0.18);}
+
+/* LAYOUT */
+.main{display:flex;flex:1;overflow:hidden;position:relative;}
+
+/* OVERLAY (mobile) */
+.panel-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:49;}
+.panel-overlay.open{display:block;}
+
+/* LEFT PANEL */
+.left{width:300px;flex-shrink:0;background:#fff;border-right:1px solid #e8e8e8;overflow-y:auto;display:flex;flex-direction:column;transition:transform 0.28s cubic-bezier(.4,0,.2,1);}
+.panel-section{padding:16px;border-bottom:1px solid #f0f0f0;}
+.panel-section-title{font-size:10px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#aaa;margin-bottom:12px;}
+
+/* PRESETS */
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.preset-btn{padding:8px 10px;border-radius:8px;border:1.5px solid #e8e8e8;cursor:pointer;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#333;background:#fff;transition:all 0.2s;text-align:left;}
+.preset-btn:hover{border-color:#00C5CD;color:#00C5CD;}
+.preset-btn.active{border-color:#00C5CD;background:#e6fafb;color:#00a8b5;}
+.preset-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle;}
+
+/* COLOR ROWS */
+.color-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.color-row:last-child{margin-bottom:0;}
+.color-label{font-size:12px;font-weight:500;color:#333;flex:1;}
+.color-desc{font-size:10px;color:#aaa;margin-top:1px;}
+.color-right{display:flex;align-items:center;gap:8px;}
+.color-hex{font-size:11px;font-weight:600;color:#666;font-family:monospace;width:64px;text-align:right;}
+.color-swatch{width:28px;height:28px;border-radius:6px;border:1px solid rgba(0,0,0,0.1);cursor:pointer;position:relative;overflow:hidden;flex-shrink:0;}
+.color-swatch input[type=color]{position:absolute;inset:-4px;width:calc(100%+8px);height:calc(100%+8px);opacity:0;cursor:pointer;border:none;padding:0;}
+
+/* PREVIEW PANEL */
+.preview{flex:1;overflow:auto;padding:20px;background:#e8e8e8;min-width:0;}
+.preview-label{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:12px;}
+.preview-frame{border-radius:12px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.15);max-width:900px;margin:0 auto;}
+
+/* PREVIEW SITE */
+.pv-announce{height:36px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;text-align:center;padding:0 12px;}
+.pv-header{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid rgba(0,0,0,0.08);}
+.pv-logo{font-size:15px;font-weight:800;}
+.pv-nav{display:flex;gap:14px;}
+.pv-nav a{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#888;}
+.pv-nav a.active{color:var(--pv-teal);}
+.pv-hero{height:180px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.pv-hero-overlay{position:absolute;inset:0;}
+.pv-hero-content{position:relative;z-index:1;text-align:center;padding:0 16px;}
+.pv-hero h1{font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-bottom:6px;}
+.pv-hero-sub{font-size:11px;color:rgba(255,255,255,0.6);margin-bottom:14px;}
+.pv-hero-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.pv-btn-solid{padding:7px 16px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#fff;border:none;cursor:pointer;}
+.pv-btn-outline{padding:6px 16px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#fff;background:transparent;border:2px solid rgba(255,255,255,0.5);cursor:pointer;}
+.pv-section{padding:20px 16px;}
+.pv-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:6px;}
+.pv-section-title{font-size:18px;font-weight:800;letter-spacing:-0.02em;margin-bottom:14px;}
+.pv-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.pv-card{border-radius:10px;padding:14px;border:1px solid rgba(0,0,0,0.08);}
+.pv-card-title{font-size:12px;font-weight:700;margin-bottom:4px;}
+.pv-card-body{font-size:10px;line-height:1.6;}
+.pv-stats{display:grid;grid-template-columns:repeat(4,1fr);}
+.pv-stat{padding:16px 10px;text-align:center;border-right:1px solid rgba(255,255,255,0.08);}
+.pv-stat:last-child{border-right:none;}
+.pv-stat-n{font-size:24px;font-weight:800;color:#fff;letter-spacing:-0.02em;}
+.pv-stat-l{font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:3px;}
+.pv-footer{padding:18px 16px;display:flex;justify-content:space-between;align-items:center;border-top:3px solid var(--pv-teal);flex-wrap:wrap;gap:8px;}
+.pv-footer-logo{font-size:13px;font-weight:800;color:#fff;}
+.pv-footer-copy{font-size:10px;color:rgba(255,255,255,0.3);}
+
+/* EXPORT MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:none;align-items:center;justify-content:center;padding:16px;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:600px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;}
+.modal-header{padding:18px 20px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-size:15px;font-weight:800;color:#1a1a1a;}
+.modal-close{width:32px;height:32px;border:none;background:#f5f5f5;border-radius:6px;cursor:pointer;font-size:16px;color:#666;flex-shrink:0;}
+.modal-body{padding:18px 20px;overflow-y:auto;flex:1;}
+.modal-body pre{font-family:monospace;font-size:11px;line-height:1.7;color:#333;background:#f8f8f8;border-radius:8px;padding:14px;white-space:pre-wrap;word-break:break-all;}
+.modal-footer{padding:14px 20px;border-top:1px solid #f0f0f0;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;}
+
+/* ── TABLET (≤ 768px): slide-in panel ── */
+@media(max-width:768px){
+  .panel-toggle{display:flex;}
+  .left{
+    position:fixed;top:52px;left:0;bottom:0;z-index:50;
+    transform:translateX(-100%);
+    box-shadow:4px 0 24px rgba(0,0,0,0.18);
+  }
+  .left.open{transform:translateX(0);}
+  .preview{padding:14px;}
+  .pv-nav{display:none;}
+  .pv-cards{grid-template-columns:1fr 1fr;}
+  .pv-stats{grid-template-columns:repeat(2,1fr);}
+  .pv-stat:nth-child(2){border-right:none;}
+  .pv-stat:nth-child(3){border-top:1px solid rgba(255,255,255,0.08);}
+}
+
+/* ── MOBILE (≤ 480px) ── */
+@media(max-width:480px){
+  .topbar{padding:0 12px;}
+  .topbar-logo{font-size:12px;}
+  .tb-btn{padding:6px 10px;font-size:10px;}
+  .preview{padding:10px;}
+  .preview-label{display:none;}
+  .pv-hero h1{font-size:17px;}
+  .pv-hero-sub{display:none;}
+  .pv-cards{grid-template-columns:1fr;}
+  .pv-footer-copy{display:none;}
+  .modal-footer{justify-content:stretch;}
+  .modal-footer .tb-btn{flex:1;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="panel-toggle" onclick="togglePanel()" id="panelToggle" title="Toggle settings panel">☰</div>
+    <div class="topbar-logo">ICA<span>NJ</span> Color Manager</div>
+  </div>
+  <div class="topbar-actions">
+    <button class="tb-btn tb-btn-outline" onclick="resetColors()">Reset</button>
+    <button class="tb-btn tb-btn-teal" onclick="openExport()">Export CSS →</button>
+  </div>
+</div>
+
+<div class="main">
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+
+  <!-- LEFT PANEL -->
+  <div class="left">
+
+    <div class="panel-section">
+      <div class="panel-section-title">Presets</div>
+      <div class="presets">
+        <button class="preset-btn" onclick="applyPreset('grey300')"><span class="preset-dot" style="background:#C8C8C8;border:1px solid #bbb;"></span>Grey 300</button>
+        <button class="preset-btn" onclick="applyPreset('dark')"><span class="preset-dot" style="background:#141414;"></span>Dark</button>
+        <button class="preset-btn" onclick="applyPreset('peach')"><span class="preset-dot" style="background:#fffbf8;border:1px solid #eee;"></span>Warm Peach</button>
+        <button class="preset-btn" onclick="applyPreset('coastal')"><span class="preset-dot" style="background:#e8f4fa;border:1px solid #cce;"></span>Coastal Blue</button>
+        <button class="preset-btn" onclick="applyPreset('white')"><span class="preset-dot" style="background:#ffffff;border:1px solid #ddd;"></span>Pure White</button>
+        <button class="preset-btn" onclick="applyPreset('slate')"><span class="preset-dot" style="background:#e8eaf0;border:1px solid #ccc;"></span>Slate</button>
+        <button class="preset-btn" onclick="applyPreset('forest')"><span class="preset-dot" style="background:#1a2e1a;"></span>Forest</button>
+        <button class="preset-btn" onclick="applyPreset('parchment')"><span class="preset-dot" style="background:#f5f0e8;border:1px solid #ddd;"></span>Parchment</button>
+        <button class="preset-btn" onclick="applyPreset('midnight')"><span class="preset-dot" style="background:#0d1b2e;"></span>Midnight</button>
+        <button class="preset-btn" onclick="applyPreset('rose')"><span class="preset-dot" style="background:#fdf0f4;border:1px solid #ecc;"></span>Rose Blush</button>
+        <button class="preset-btn" onclick="applyPreset('charcoal')"><span class="preset-dot" style="background:#2c2c2c;"></span>Charcoal</button>
+        <button class="preset-btn" onclick="applyPreset('sage')"><span class="preset-dot" style="background:#e8ede6;border:1px solid #c8d4c5;"></span>Sage Green</button>
+        <button class="preset-btn" onclick="applyPreset('navy')"><span class="preset-dot" style="background:#0f1e35;"></span>Navy Deep</button>
+        <button class="preset-btn" onclick="applyPreset('sand')"><span class="preset-dot" style="background:#f2e8d8;border:1px solid #ddd;"></span>Desert Sand</button>
+        <button class="preset-btn" onclick="applyPreset('crimson')"><span class="preset-dot" style="background:#1e0808;"></span>Crimson Night</button>
+        <button class="preset-btn" onclick="applyPreset('lavender')"><span class="preset-dot" style="background:#f0eef8;border:1px solid #d8d0f0;"></span>Lavender</button>
+        <button class="preset-btn" onclick="applyPreset('gold')"><span class="preset-dot" style="background:#1a1408;"></span>Gold &amp; Black</button>
+        <button class="preset-btn" onclick="applyPreset('arctic')"><span class="preset-dot" style="background:#f0f8ff;border:1px solid #c8e4f8;"></span>Arctic</button>
+        <button class="preset-btn" onclick="applyPreset('mocha')"><span class="preset-dot" style="background:#2a1a10;"></span>Mocha</button>
+        <button class="preset-btn" onclick="applyPreset('mint')"><span class="preset-dot" style="background:#edfaf4;border:1px solid #c0ecd8;"></span>Fresh Mint</button>
+        <button class="preset-btn" onclick="applyPreset('plum')"><span class="preset-dot" style="background:#1e0a2a;"></span>Deep Plum</button>
+        <button class="preset-btn" onclick="applyPreset('linen')"><span class="preset-dot" style="background:#faf6f0;border:1px solid #e8e0d5;"></span>Warm Linen</button>
+        <button class="preset-btn" onclick="applyPreset('steel')"><span class="preset-dot" style="background:#1c2a38;"></span>Steel Blue</button>
+        <button class="preset-btn" onclick="applyPreset('olive')"><span class="preset-dot" style="background:#2a2a10;"></span>Olive Dark</button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-section-title">Accent Color</div>
+      <div class="color-row">
+        <div><div class="color-label">Brand Accent</div><div class="color-desc">Buttons, eyebrows, nav active</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-teal">#00C5CD</div>
+          <div class="color-swatch" id="sw-teal"><input type="color" value="#00C5CD" oninput="updateColor('teal',this.value)"/></div>
+        </div>
+      </div>
+      <div class="color-row">
+        <div><div class="color-label">Accent Hover</div><div class="color-desc">Button hover state</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-teal-dark">#00a8b5</div>
+          <div class="color-swatch" id="sw-teal-dark"><input type="color" value="#00a8b5" oninput="updateColor('teal-dark',this.value)"/></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-section-title">Backgrounds</div>
+      <div class="color-row">
+        <div><div class="color-label">Page Background</div><div class="color-desc">Main site background</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-bg">#C8C8C8</div>
+          <div class="color-swatch" id="sw-bg"><input type="color" value="#C8C8C8" oninput="updateColor('bg',this.value)"/></div>
+        </div>
+      </div>
+      <div class="color-row">
+        <div><div class="color-label">Section BG</div><div class="color-desc">Alternating sections</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-bg-soft">#D4D4D4</div>
+          <div class="color-swatch" id="sw-bg-soft"><input type="color" value="#D4D4D4" oninput="updateColor('bg-soft',this.value)"/></div>
+        </div>
+      </div>
+      <div class="color-row">
+        <div><div class="color-label">Cards</div><div class="color-desc">Ministry, event cards</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-bg-card">#DEDEDE</div>
+          <div class="color-swatch" id="sw-bg-card"><input type="color" value="#DEDEDE" oninput="updateColor('bg-card',this.value)"/></div>
+        </div>
+      </div>
+      <div class="color-row">
+        <div><div class="color-label">Elevated Cards</div><div class="color-desc">Form inputs, top cards</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-bg-white">#EBEBEB</div>
+          <div class="color-swatch" id="sw-bg-white"><input type="color" value="#EBEBEB" oninput="updateColor('bg-white',this.value)"/></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-section-title">Dark Sections</div>
+      <div class="color-row">
+        <div><div class="color-label">Hero / Masthead</div><div class="color-desc">Page headers, stats band</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-dark">#2a2a2a</div>
+          <div class="color-swatch" id="sw-dark"><input type="color" value="#2a2a2a" oninput="updateColor('dark',this.value)"/></div>
+        </div>
+      </div>
+      <div class="color-row">
+        <div><div class="color-label">Footer / Verse Band</div><div class="color-desc">Footer background</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-dark2">#222222</div>
+          <div class="color-swatch" id="sw-dark2"><input type="color" value="#222222" oninput="updateColor('dark2',this.value)"/></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-section-title">Text Colors</div>
+      <div class="color-row">
+        <div><div class="color-label">Headings</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-ink">#1a1a1a</div>
+          <div class="color-swatch" id="sw-ink"><input type="color" value="#1a1a1a" oninput="updateColor('ink',this.value)"/></div>
+        </div>
+      </div>
+      <div class="color-row">
+        <div><div class="color-label">Body Text</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-body">#333333</div>
+          <div class="color-swatch" id="sw-body"><input type="color" value="#333333" oninput="updateColor('body',this.value)"/></div>
+        </div>
+      </div>
+      <div class="color-row">
+        <div><div class="color-label">Muted Text</div></div>
+        <div class="color-right">
+          <div class="color-hex" id="hex-muted">#666666</div>
+          <div class="color-swatch" id="sw-muted"><input type="color" value="#666666" oninput="updateColor('muted',this.value)"/></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PREVIEW PANEL -->
+  <div class="preview">
+    <div class="preview-label">Live Preview</div>
+    <div class="preview-frame" id="previewFrame">
+
+      <div class="pv-announce" id="pv-announce">VBS 2026 — July 9–11 — Register Now →</div>
+
+      <div class="pv-header" id="pv-header">
+        <div class="pv-logo" id="pv-logo">ICA<span id="pv-logo-span">NJ</span></div>
+        <div class="pv-nav">
+          <a>Home</a><a class="active">Events</a><a>About</a><a>Connect</a>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <div id="pv-cc-btn" style="padding:7px 14px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;border:1.5px solid rgba(0,0,0,0.18);color:#333;">Church Center</div>
+          <div id="pv-give-btn" style="padding:7px 14px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#fff;">Give</div>
+        </div>
+      </div>
+
+      <div class="pv-hero" id="pv-hero">
+        <div class="pv-hero-overlay" id="pv-hero-overlay"></div>
+        <div class="pv-hero-content">
+          <div id="pv-eyebrow" style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:8px;">Hackensack, New Jersey</div>
+          <h1 class="pv-hero-h1">Welcome to <span id="pv-hero-span">ICANJ</span></h1>
+          <div class="pv-hero-sub">A congregation rooted in Scripture, devoted to worship.</div>
+          <div class="pv-hero-btns">
+            <button class="pv-btn-solid" id="pv-solid-btn">Plan Your Visit</button>
+            <button class="pv-btn-outline">Watch Online</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pv-section" id="pv-main-section">
+        <div class="pv-eyebrow" id="pv-section-eyebrow">Active Ministries</div>
+        <div class="pv-section-title" id="pv-section-title">Where You Belong</div>
+        <div class="pv-cards">
+          <div class="pv-card" id="pv-card-1">
+            <div class="pv-card-title" id="pv-card-title-1">Children's Ministry</div>
+            <div class="pv-card-body" id="pv-card-body-1">Every Sunday · 10:00 AM · Safe, faith-filled environment for children.</div>
+          </div>
+          <div class="pv-card" id="pv-card-2">
+            <div class="pv-card-title" id="pv-card-title-2">Youth Ministry</div>
+            <div class="pv-card-body" id="pv-card-body-2">Friday Evenings · 7:00 PM · Dynamic teaching and fellowship.</div>
+          </div>
+          <div class="pv-card" id="pv-card-3">
+            <div class="pv-card-title" id="pv-card-title-3">Worship Team</div>
+            <div class="pv-card-body" id="pv-card-body-3">Saturday Rehearsals · Leading worship every Sunday.</div>
+          </div>
+        </div>
+        <div id="pv-section-btn" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#fff;cursor:pointer;">View All Ministries →</div>
+      </div>
+
+      <div id="pv-stats" style="display:grid;grid-template-columns:repeat(4,1fr);">
+        <div class="pv-stat"><div class="pv-stat-n">25<span id="pv-stat-accent-1" style="font-size:22px;">+</span></div><div class="pv-stat-l">Years of Ministry</div></div>
+        <div class="pv-stat"><div class="pv-stat-n">3<span id="pv-stat-accent-2" style="font-size:22px;">×</span></div><div class="pv-stat-l">Weekly Services</div></div>
+        <div class="pv-stat"><div class="pv-stat-n">6</div><div class="pv-stat-l">Active Ministries</div></div>
+        <div class="pv-stat"><div class="pv-stat-n" id="pv-stat-accent-3" style="font-size:28px;font-weight:800;">∞</div><div class="pv-stat-l">Grace Available</div></div>
+      </div>
+
+      <div class="pv-footer" id="pv-footer">
+        <div class="pv-footer-logo">ICA<span id="pv-footer-span">NJ</span></div>
+        <div class="pv-footer-copy">© 2026 India Christian Assembly of New Jersey</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-bg" id="exportModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Export — style.css variables</div>
+      <button class="modal-close" onclick="closeExport()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:#666;margin-bottom:12px;">Copy the <code style="background:#f0f0f0;padding:2px 6px;border-radius:4px;font-size:12px;">:root</code> block below and paste it at the top of your <code style="background:#f0f0f0;padding:2px 6px;border-radius:4px;font-size:12px;">style.css</code> replacing the existing one.</p>
+      <pre id="exportCode"></pre>
+    </div>
+    <div class="modal-footer">
+      <button class="tb-btn tb-btn-outline" style="color:#333;border-color:#ddd;" onclick="closeExport()">Close</button>
+      <button class="tb-btn tb-btn-teal" onclick="copyCSS()">Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const colors = {
+  teal:      '#00C5CD',
+  'teal-dark': '#00a8b5',
+  bg:        '#C8C8C8',
+  'bg-soft': '#D4D4D4',
+  'bg-card': '#DEDEDE',
+  'bg-white':'#EBEBEB',
+  dark:      '#2a2a2a',
+  dark2:     '#222222',
+  ink:       '#1a1a1a',
+  body:      '#333333',
+  muted:     '#666666'
+};
+
+const presets = {
+  grey300: { teal:'#00C5CD','teal-dark':'#00a8b5', bg:'#C8C8C8','bg-soft':'#D4D4D4','bg-card':'#DEDEDE','bg-white':'#EBEBEB', dark:'#2a2a2a',dark2:'#222222', ink:'#1a1a1a',body:'#333333',muted:'#666666' },
+  dark:    { teal:'#00C5CD','teal-dark':'#00a8b5', bg:'#141414','bg-soft':'#1c1c1c','bg-card':'#222222','bg-white':'#2a2a2a', dark:'#0d0d0d',dark2:'#111111', ink:'#f0f0f0',body:'#a0a0a0',muted:'#666666' },
+  peach:   { teal:'#00C5CD','teal-dark':'#00a8b5', bg:'#fffbf8','bg-soft':'#fef0e6','bg-card':'#fde4d2','bg-white':'#fff5ee', dark:'#1a3d5c',dark2:'#12293d', ink:'#2a1a10',body:'#5a4535',muted:'#9a8070' },
+  coastal: { teal:'#00C5CD','teal-dark':'#00a8b5', bg:'#e8f4fa','bg-soft':'#cce8f4','bg-card':'#b8ddf0','bg-white':'#f5fbff', dark:'#0a4a6b',dark2:'#082d42', ink:'#082d42',body:'#2d5a72',muted:'#6a9cb4' },
+  white:   { teal:'#00C5CD','teal-dark':'#00a8b5', bg:'#ffffff','bg-soft':'#f4f4f4','bg-card':'#f9f9f9','bg-white':'#ffffff', dark:'#1a1a1a',dark2:'#111111', ink:'#1a1a1a',body:'#444444',muted:'#888888' },
+  slate:   { teal:'#00C5CD','teal-dark':'#00a8b5', bg:'#e8eaf0','bg-soft':'#dde0ea','bg-card':'#d2d5e0','bg-white':'#eef0f5', dark:'#1e2130',dark2:'#161824', ink:'#1e2130',body:'#3d4060',muted:'#7880a0' },
+  forest:  { teal:'#4caf7d','teal-dark':'#3d9268', bg:'#1a2e1a','bg-soft':'#1f3820','bg-card':'#243f25','bg-white':'#2a4a2b', dark:'#111c11',dark2:'#0d160d', ink:'#e8f0e8',body:'#9db89d',muted:'#607860' },
+  parchment: { teal:'#8b6c42','teal-dark':'#6e5432', bg:'#f5f0e8','bg-soft':'#ede5d8','bg-card':'#e4d9c8','bg-white':'#faf7f2', dark:'#2c1f0e',dark2:'#1e1508', ink:'#1e1508',body:'#4a3520',muted:'#8a7060' },
+  midnight: { teal:'#6c9eff','teal-dark':'#4f82f0', bg:'#0d1b2e','bg-soft':'#122035','bg-card':'#162540','bg-white':'#1a2d4d', dark:'#08101e',dark2:'#060c16', ink:'#e8eef8',body:'#8aa0c0',muted:'#4a6080' },
+  rose:    { teal:'#c4527e','teal-dark':'#a83d68', bg:'#fdf0f4','bg-soft':'#fae0ea','bg-card':'#f5cfe0','bg-white':'#fff5f8', dark:'#2e0f1c',dark2:'#1e0912', ink:'#2e0f1c',body:'#6a3048',muted:'#b08090' },
+  charcoal:{ teal:'#00C5CD','teal-dark':'#00a8b5', bg:'#2c2c2c','bg-soft':'#333333','bg-card':'#3a3a3a','bg-white':'#444444', dark:'#1a1a1a',dark2:'#141414', ink:'#f5f5f5',body:'#c0c0c0',muted:'#808080' },
+  sage:    { teal:'#5a8a5e','teal-dark':'#476e4b', bg:'#e8ede6','bg-soft':'#dce4da','bg-card':'#cfdbcc','bg-white':'#f3f6f2', dark:'#1e2e1f',dark2:'#161e17', ink:'#1e2e1f',body:'#3a5040',muted:'#708070' },
+  navy:    { teal:'#4db8d4','teal-dark':'#3a9ab5', bg:'#0f1e35','bg-soft':'#152540','bg-card':'#1a2d4e','bg-white':'#20365e', dark:'#08121f',dark2:'#050c15', ink:'#dce8f8',body:'#8aaac8',muted:'#445a78' },
+  sand:    { teal:'#c87d3e','teal-dark':'#a66430', bg:'#f2e8d8','bg-soft':'#ead8c0','bg-card':'#e0c8a8','bg-white':'#f8f2e8', dark:'#2e1e08',dark2:'#1e1205', ink:'#2e1e08',body:'#5a4020',muted:'#9a7850' },
+  crimson: { teal:'#e05555','teal-dark':'#c03a3a', bg:'#1e0808','bg-soft':'#280d0d','bg-card':'#301212','bg-white':'#3a1818', dark:'#130505',dark2:'#0e0303', ink:'#f8e8e8',body:'#d09090',muted:'#805050' },
+  lavender:{ teal:'#8060c0','teal-dark':'#6848a8', bg:'#f0eef8','bg-soft':'#e4e0f4','bg-card':'#d8d2ee','bg-white':'#f8f6ff', dark:'#1e1630',dark2:'#140e22', ink:'#1e1630',body:'#4a3870',muted:'#9080b8' },
+  gold:    { teal:'#d4a930','teal-dark':'#b88e20', bg:'#1a1408','bg-soft':'#221c0c','bg-card':'#2a2210','bg-white':'#342c18', dark:'#0e0c04',dark2:'#080602', ink:'#f8f0d8',body:'#c8aa70',muted:'#806840' },
+  arctic:  { teal:'#2090c8','teal-dark':'#1878aa', bg:'#f0f8ff','bg-soft':'#e0f0fc','bg-card':'#cde6fa','bg-white':'#f8fcff', dark:'#083050',dark2:'#051e35', ink:'#051e35',body:'#2a5878',muted:'#6898b8' },
+  mocha:   { teal:'#c8865a','teal-dark':'#a86840', bg:'#2a1a10','bg-soft':'#351f14','bg-card':'#40261a','bg-white':'#4e3020', dark:'#180e08',dark2:'#100904', ink:'#f5ece4',body:'#c8a888',muted:'#806050' },
+  mint:    { teal:'#28a870','teal-dark':'#1e8858', bg:'#edfaf4','bg-soft':'#d8f4e8','bg-card':'#c2ecda','bg-white':'#f5fdf9', dark:'#0a2e1e',dark2:'#061e14', ink:'#0a2e1e',body:'#2a6048',muted:'#60a080' },
+  plum:    { teal:'#b060d0','teal-dark':'#9048b0', bg:'#1e0a2a','bg-soft':'#260e34','bg-card':'#2e1240','bg-white':'#381850', dark:'#130618',dark2:'#0d0410', ink:'#f0e0f8',body:'#c080d8',muted:'#804898' },
+  linen:   { teal:'#a0785a','teal-dark':'#885e42', bg:'#faf6f0','bg-soft':'#f2ece2','bg-card':'#e8e0d4','bg-white':'#fff9f4', dark:'#2a1e14',dark2:'#1c140c', ink:'#2a1e14',body:'#5a4838',muted:'#9a8878' },
+  steel:   { teal:'#4a9ecf','teal-dark':'#3880ae', bg:'#1c2a38','bg-soft':'#223244','bg-card':'#283c52','bg-white':'#2e4660', dark:'#101820',dark2:'#0a1018', ink:'#dceaf8',body:'#88aac8',muted:'#486480' },
+  olive:   { teal:'#a0b030','teal-dark':'#808e24', bg:'#2a2a10','bg-soft':'#323218','bg-card':'#3c3c20','bg-white':'#484828', dark:'#181808',dark2:'#101005', ink:'#f0f0d8',body:'#c0c080',muted:'#808040' },
+};
+
+function togglePanel() {
+  const left = document.querySelector('.left');
+  const overlay = document.getElementById('panelOverlay');
+  const isOpen = left.classList.toggle('open');
+  overlay.classList.toggle('open', isOpen);
+  document.getElementById('panelToggle').textContent = isOpen ? '✕' : '☰';
+}
+
+function closePanel() {
+  document.querySelector('.left').classList.remove('open');
+  document.getElementById('panelOverlay').classList.remove('open');
+  document.getElementById('panelToggle').textContent = '☰';
+}
+
+function updateColor(key, val) {
+  colors[key] = val;
+  document.getElementById('hex-' + key.replace('dark2','dark2').replace('bg-','bg-')).textContent = val;
+  document.getElementById('sw-' + key.replace('dark2','dark2')).style.background = val;
+  renderPreview();
+}
+
+function applyPreset(name) {
+  const p = presets[name];
+  Object.entries(p).forEach(([k,v]) => {
+    colors[k] = v;
+    const hexEl = document.getElementById('hex-' + k);
+    const swEl  = document.getElementById('sw-'  + k);
+    if(hexEl) hexEl.textContent = v;
+    if(swEl)  { swEl.style.background = v; const inp = swEl.querySelector('input'); if(inp) inp.value = v; }
+  });
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  event.target.closest('.preset-btn').classList.add('active');
+  renderPreview();
+  if(window.innerWidth <= 768) closePanel();
+}
+
+function renderPreview() {
+  const c = colors;
+  const isDark = lum(c.bg) < 0.35;
+  const isVeryDark = lum(c.bg) < 0.15;
+
+  // Announce bar
+  document.getElementById('pv-announce').style.background = c.teal;
+
+  // Header
+  const hdr = document.getElementById('pv-header');
+  hdr.style.background = c['bg-soft'];
+  hdr.style.borderBottomColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+
+  // Logo
+  document.getElementById('pv-logo').style.color = c.ink;
+  document.getElementById('pv-logo-span').style.color = c.teal;
+  document.getElementById('pv-give-btn').style.background = c.teal;
+  document.getElementById('pv-cc-btn').style.color = c.ink;
+
+  // Hero
+  const hero = document.getElementById('pv-hero');
+  hero.style.background = c.dark;
+  document.getElementById('pv-hero-overlay').style.background =
+    'linear-gradient(135deg,' + hexToRgba(c.dark, 0.85) + ' 0%,' + hexToRgba(c.dark, 0.5) + ' 60%,transparent 100%)';
+  document.getElementById('pv-eyebrow').style.color = c.teal;
+  document.getElementById('pv-hero-span').style.color = c.teal;
+  document.getElementById('pv-solid-btn').style.background = c.teal;
+
+  // Main section
+  const ms = document.getElementById('pv-main-section');
+  ms.style.background = c.bg;
+  document.getElementById('pv-section-eyebrow').style.color = c.teal;
+  document.getElementById('pv-section-title').style.color = c.ink;
+  document.getElementById('pv-section-btn').style.background = c.teal;
+
+  // Cards
+  ['1','2','3'].forEach(n => {
+    const card = document.getElementById('pv-card-'+n);
+    card.style.background = c['bg-card'];
+    card.style.borderColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.08)';
+    document.getElementById('pv-card-title-'+n).style.color = c.ink;
+    document.getElementById('pv-card-body-'+n).style.color = c.body;
+  });
+
+  // Stats
+  const stats = document.getElementById('pv-stats');
+  stats.style.background = c.dark2;
+  document.getElementById('pv-stat-accent-1').style.color = c.teal;
+  document.getElementById('pv-stat-accent-2').style.color = c.teal;
+  document.getElementById('pv-stat-accent-3').style.color = c.teal;
+
+  // Footer
+  const footer = document.getElementById('pv-footer');
+  footer.style.background = c.dark;
+  footer.style.borderTopColor = c.teal;
+  document.getElementById('pv-footer-span').style.color = c.teal;
+}
+
+function lum(hex) {
+  const r = parseInt(hex.slice(1,3),16)/255;
+  const g = parseInt(hex.slice(3,5),16)/255;
+  const b = parseInt(hex.slice(5,7),16)/255;
+  return 0.299*r + 0.587*g + 0.114*b;
+}
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return 'rgba('+r+','+g+','+b+','+alpha+')';
+}
+
+function resetColors() {
+  applyPreset('grey300');
+}
+
+function openExport() {
+  const c = colors;
+  const code = `:root {\n  /* Accent */\n  --teal:        ${c.teal};\n  --teal-dark:   ${c['teal-dark']};\n  --teal-light:  ${hexToRgba(c.teal, 0.12)};\n\n  /* Backgrounds */\n  --bg:          ${c.bg};\n  --bg-soft:     ${c['bg-soft']};\n  --bg-card:     ${c['bg-card']};\n  --bg-white:    ${c['bg-white']};\n\n  /* Dark sections */\n  --dark:        ${c.dark};\n  --dark-2:      ${c.dark2};\n\n  /* Text */\n  --ink:         ${c.ink};\n  --body:        ${c.body};\n  --muted:       ${c.muted};\n  --border:      rgba(0,0,0,0.1);\n  --border-mid:  rgba(0,0,0,0.18);\n}`;
+  document.getElementById('exportCode').textContent = code;
+  document.getElementById('exportModal').classList.add('open');
+}
+
+function closeExport() {
+  document.getElementById('exportModal').classList.remove('open');
+}
+
+function copyCSS() {
+  navigator.clipboard.writeText(document.getElementById('exportCode').textContent)
+    .then(() => {
+      const btn = event.target;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+    });
+}
+
+// Init swatches background
+Object.entries(colors).forEach(([k,v]) => {
+  const el = document.getElementById('sw-'+k);
+  if(el) el.style.background = v;
+});
+
+renderPreview();
+</script>
+</body>
+</html>

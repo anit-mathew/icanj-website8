@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Plan Your Visit – ICANJ</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.visit-grid{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;margin-top:36px;}
+.vg-col{padding:36px 32px;}
+.vg-sep{background:var(--border);}
+.vg-label{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;}
+.vg-heading{font-size:clamp(24px,3vw,36px);font-weight:800;color:#1a1a1a;line-height:1.1;letter-spacing:-0.02em;margin-bottom:20px;}
+.svc-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #e8e8e8;}
+.svc-row:last-child{border-bottom:none;}
+.svc-name{font-size:15px;font-weight:600;color:#1a1a1a;}
+.svc-time{font-size:13px;font-weight:700;color:var(--teal);}
+
+.map-placeholder{background:var(--bg-soft);border-radius:12px;height:200px;display:flex;align-items:center;justify-content:center;border:1px solid #e8e8e8;margin-bottom:16px;}
+.map-placeholder span{font-size:13px;font-weight:600;color:#888888;}
+.addr-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.addr-label{font-size:14px;font-weight:600;color:#1a1a1a;}
+.copy-btn{font-size:11px;font-weight:700;letter-spacing:0.08em;padding:5px 12px;border:1px solid var(--border-mid);border-radius:6px;background:transparent;color:#888888;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.copy-btn:hover{border-color:var(--teal);color:var(--teal);}
+
+.platform-list{margin-top:16px;}
+.platform-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e8e8e8;text-decoration:none;}
+.platform-row:last-child{border-bottom:none;}
+.pl-name{font-size:14px;font-weight:600;color:#1a1a1a;}
+.pl-arrow{font-size:16px;color:var(--border-mid);transition:all 0.2s;}
+.platform-row:hover .pl-arrow{color:var(--teal);transform:translateX(4px);}
+
+.toggle-group{display:inline-flex;border:1px solid var(--border-mid);border-radius:8px;overflow:hidden;margin-bottom:40px;}
+.tog-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:11px 28px;background:transparent;border:none;cursor:pointer;color:#888888;transition:all 0.2s;}
+.tog-btn.active{background:var(--ink);color:#fff;}
+
+.visit-panel{display:none;}
+.visit-panel.active{display:block;animation:fadeUp 0.35s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.faq-section{background:var(--bg-soft);padding:72px 0;}
+.faq-inner{max-width:760px;margin:0 auto;padding:0 52px;}
+/* Light section overrides */
+.faq-section .section-title{color:#1a1a1a;}
+.faq-section .faq-trigger{color:#1a1a1a;}
+.faq-section .faq-icon{color:#888;}
+.faq-section .faq-item{border-bottom:1px solid #e0e0e0;}
+.faq-section .faq-item:first-of-type{border-top:1px solid #e0e0e0;}
+.faq-section .faq-body p{color:#555;}
+.faq-section .faq-item.open .faq-icon{color:var(--teal);}
+.faq-section .faq-trigger:hover{color:var(--teal);}
+.section.light-section .section-title, section[style*="#ffffff"] .section-title, section[style*="#f4f4f4"] .section-title{color:#1a1a1a;}
+.section.light-section .section-body, section[style*="#ffffff"] .section-body, section[style*="#f4f4f4"] .section-body{color:#555;}
+.tog-btn.active{background:#1a1a1a;color:#fff;}
+
+.visit-form{background:var(--dark);padding:72px 0;}
+.vf-inner{max-width:1200px;margin:0 auto;padding:0 52px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.vf-title{font-size:clamp(36px,5vw,64px);font-weight:800;color:#fff;line-height:1.05;letter-spacing:-0.03em;margin-bottom:16px;}
+.vf-sub{font-size:15px;color:var(--body);line-height:1.7;}
+.vf-form-panel{background:rgba(0,0,0,0.06);border-radius:14px;padding:36px;border:1px solid var(--border);}
+.vf-form-panel .field label{color:var(--body);}
+.vf-form-panel .field input,.vf-form-panel .field textarea,.vf-form-panel .field select{background:rgba(0,0,0,0.08);border-color:var(--border-mid);color:#fff;}
+.vf-form-panel .field input:focus,.vf-form-panel .field textarea:focus{border-color:var(--teal);background:rgba(255,255,255,0.1);}
+
+@media(max-width:1024px){
+  .visit-grid{grid-template-columns:1fr;border-radius:12px;}
+  .vg-sep{height:1px;width:100%;}
+  .vg-col{padding:24px 16px;}
+  .faq-inner{padding:0 16px;}
+  .vf-inner{grid-template-columns:1fr;padding:0 16px;gap:36px;}
+}
+</style>
+</head>
+<body>
+<script src="header.js"></script>
+<div class="page-masthead"><div class="container"><span class="eyebrow">We'd Love to See You</span><h1>Plan Your Visit</h1><p>Everything you need to know before your first Sunday at ICANJ.</p></div></div>
+
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <div style="margin-bottom:8px;"><span class="eyebrow">How are you joining us?</span></div>
+    <div class="toggle-group">
+      <button class="tog-btn active" onclick="switchPanel('in-person',this)">In Person</button>
+      <button class="tog-btn" onclick="switchPanel('online',this)">Online</button>
+    </div>
+
+    <div id="in-person" class="visit-panel active">
+      <div class="visit-grid">
+        <div class="vg-col">
+          <div class="vg-label">Service Times</div>
+          <div class="vg-heading">Join Us This Sunday</div>
+          <div class="svc-row"><span class="svc-name">Morning Worship (English)</span><span class="svc-time">10:00 AM</span></div>
+          <div class="svc-row"><span class="svc-name">Malayalam Service</span><span class="svc-time">12:30 PM</span></div>
+          <div class="svc-row"><span class="svc-name">Wednesday Bible Study</span><span class="svc-time">7:30 PM</span></div>
+          <div class="svc-row"><span class="svc-name">Friday Youth Fellowship</span><span class="svc-time">7:00 PM</span></div>
+        </div>
+        <div class="vg-sep"></div>
+        <div class="vg-col">
+          <div class="vg-label">Location</div>
+          <div class="vg-heading">Find Us</div>
+          <div class="map-placeholder"><span>Hackensack, NJ · View on Maps →</span></div>
+          <div class="addr-row"><div class="addr-label">Hackensack, New Jersey</div><button class="copy-btn" onclick="copyAddr(this)">Copy Address</button></div>
+          <a href="https://maps.google.com" target="_blank" class="btn btn-primary btn-arrow" style="margin-top:12px;">Get Directions</a>
+        </div>
+        <div class="vg-sep"></div>
+        <div class="vg-col">
+          <div class="vg-label">Children's Ministry</div>
+          <div class="vg-heading">Formation Kids</div>
+          <p style="font-size:14px;color:#555555;line-height:1.75;margin-bottom:14px;">Safe, age-appropriate environments where kids genuinely encounter Jesus. Runs during the 10:00 AM English service for all ages. Check in at the Kids Ministry desk in the main foyer.</p>
+          <a href="ministries.html" class="btn btn-outline-dark">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="online" class="visit-panel">
+      <div class="visit-grid">
+        <div class="vg-col">
+          <div class="vg-label">Live Stream</div>
+          <div class="vg-heading">10:00 · 12:30</div>
+          <div class="vg-label" style="margin-bottom:8px;">On demand — uploaded same day</div>
+          <div class="platform-list">
+            <a href="https://www.youtube.com/@ICANJ" target="_blank" class="platform-row"><span class="pl-name">YouTube — @ICANJ</span><span class="pl-arrow">→</span></a>
+            <a href="https://open.spotify.com/show/79ZreA0Kmp0KERqYSTQJQE" target="_blank" class="platform-row"><span class="pl-name">Spotify Podcast</span><span class="pl-arrow">→</span></a>
+            <a href="https://podcasts.apple.com/us/podcast/walking-through-the-word-verse-by-verse-in-depth-bible-study/id1726749438" target="_blank" class="platform-row"><span class="pl-name">Apple Podcasts</span><span class="pl-arrow">→</span></a>
+          </div>
+        </div>
+        <div class="vg-sep"></div>
+        <div class="vg-col" style="grid-column:span 3;">
+          <div class="vg-label">About Online</div>
+          <p style="font-size:15px;color:#555555;line-height:1.75;margin-bottom:20px;max-width:560px;"><strong>Whether you're on a break at work, in the middle of a long shift, or gathered at home — you are seen, known, and loved.</strong> We pray for our online community intentionally. This is your home — to be formed by the Word, covered in prayer, and sent to live on mission.</p>
+          <a href="https://icanj.churchcenter.com/home" target="_blank" class="btn btn-dark btn-arrow">Join Church Center</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="faq-inner">
+    <span class="eyebrow">FAQ</span>
+    <h2 class="section-title" style="margin-bottom:32px;">Real Answers</h2>
+    <div class="faq-item open"><button class="faq-trigger" onclick="toggleFaq(this)"><span>What will happen when I visit for the first time?</span><span class="faq-icon">+</span></button><div class="faq-body"><p>You'll be greeted at the entrance by our welcome team. No pressure, no spotlight moments — just a genuine hello. Find a seat, take in the worship, hear the Word preached straight. After the service, feel free to stay and meet people or head home.</p></div></div>
+    <div class="faq-item"><button class="faq-trigger" onclick="toggleFaq(this)"><span>What are your worship gatherings like?</span><span class="faq-icon">+</span></button><div class="faq-body"><p>Our Sunday gatherings are Spirit-led, Scripture-centered, and usually run about 90 minutes. Expect contemporary worship, genuine prayer, and an expository message that goes deep into the Word. Malayalam service follows at 12:30 PM.</p></div></div>
+    <div class="faq-item"><button class="faq-trigger" onclick="toggleFaq(this)"><span>What should I wear?</span><span class="faq-icon">+</span></button><div class="faq-body"><p>Come as you are. Casual, smart-casual, traditional — whatever you're comfortable in. We care far more about you being in the room than what you have on.</p></div></div>
+    <div class="faq-item"><button class="faq-trigger" onclick="toggleFaq(this)"><span>What do you have for kids?</span><span class="faq-icon">+</span></button><div class="faq-body"><p>Formation Kids runs during the 10:00 AM English service for all ages. Our servant leaders create safe, age-appropriate environments where kids genuinely encounter Jesus. Check in at the Kids Ministry desk in the main foyer when you arrive.</p></div></div>
+    <div class="faq-item"><button class="faq-trigger" onclick="toggleFaq(this)"><span>Do you have a mid-week gathering?</span><span class="faq-icon">+</span></button><div class="faq-body"><p>Yes. Wednesday Bible Study at 7:30 PM is a verse-by-verse deep dive — currently working through Romans. Come ready to open your Bible.</p></div></div>
+  </div>
+</section>
+
+<div class="visit-form">
+  <div class="vf-inner">
+    <div>
+      <div class="eyebrow" style="color:rgba(0,197,205,0.8);">Let us know you're coming</div>
+      <div class="vf-title">We're excited<br/>to host you.</div>
+      <p class="vf-sub">Share your visit plans so our team can wrap their arms around you from day one.</p>
+    </div>
+    <div class="vf-form-panel">
+      <div class="field-row"><div class="field"><label>First Name</label><input type="text" placeholder="First name"/></div><div class="field"><label>Last Name</label><input type="text" placeholder="Last name"/></div></div>
+      <div class="field"><label>Email Address</label><input type="email" placeholder="your@email.com"/></div>
+      <div class="field"><label>Phone (optional)</label><input type="tel" placeholder="(123) 456-7890"/></div>
+      <div class="field"><label>Describe your visit</label><select><option value="">Select…</option><option>First time visitor</option><option>Visited before, not a member</option><option>Returning after time away</option></select></div>
+      <div class="field"><label>Anything you'd like us to know?</label><textarea placeholder="Questions, prayer requests, or just a hello…"></textarea></div>
+      <button class="btn btn-primary btn-arrow" style="width:100%;justify-content:center;">Send My Visit Card</button>
+    </div>
+  </div>
+</div>
+
+<script src="footer.js"></script>
+<script src="color-manager-widget.js"></script>
+<script>
+function switchPanel(id,btn){document.querySelectorAll('.visit-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tog-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+function toggleFaq(btn){const e=btn.closest('.faq-item'),o=e.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!o)e.classList.add('open');}
+function copyAddr(btn){navigator.clipboard.writeText('Hackensack, NJ, USA').then(()=>{btn.textContent='✓ Copied';setTimeout(()=>btn.textContent='Copy Address',2000);});}
+</script>
+</body>
+</html>

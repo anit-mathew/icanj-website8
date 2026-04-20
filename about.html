@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>About Us – ICANJ</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+.mission-photo{border-radius:16px;overflow:hidden;aspect-ratio:4/5;background:#e8f8f9;border:1px solid #e0e0e0;display:flex;align-items:center;justify-content:center;position:relative;}
+.mission-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.mission-photo-placeholder{font-size:13px;font-weight:600;color:#aaa;text-align:center;padding:24px;}
+.mission-photo-placeholder span{display:block;font-size:32px;margin-bottom:8px;}
+.value-list{margin-top:32px;}
+.value-row{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid #e8e8e8;}
+.value-row:last-child{border-bottom:none;}
+.vr-dot{width:10px;height:10px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:6px;}
+.vr-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.vr-body{font-size:14px;color:#555;line-height:1.7;}
+
+.beliefs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px;}
+.belief-card{background:var(--bg-white);border-radius:12px;padding:24px;border:1px solid var(--border);}
+.belief-card:hover{border-color:var(--teal);}
+.belief-num{font-size:11px;font-weight:800;letter-spacing:0.1em;color:var(--teal);margin-bottom:10px;}
+.belief-title{font-size:17px;font-weight:700;color:var(--teal);margin-bottom:8px;}
+.belief-body{font-size:14px;color:#555;line-height:1.7;}
+
+.leader-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px;}
+.leader-card{background:var(--bg-white);border-radius:12px;padding:28px 20px;border:1px solid var(--border);text-align:center;}
+.leader-av{width:96px;height:96px;border-radius:50%;background:#e0f7f9;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:var(--teal);border:3px solid var(--teal);overflow:hidden;}
+.leader-av img{width:100%;height:100%;object-fit:cover;}
+.leader-name{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.leader-role{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);}
+
+.timeline{margin-top:36px;}
+.tl-item{display:grid;grid-template-columns:80px 1fr;gap:24px;margin-bottom:36px;}
+.tl-year{font-size:28px;font-weight:800;color:var(--teal);letter-spacing:-0.02em;padding-top:2px;}
+.tl-title{font-size:18px;font-weight:700;color:var(--teal);margin-bottom:6px;}
+.tl-body{font-size:14px;color:#555;line-height:1.75;}
+
+@media(max-width:1024px){
+  .mission-grid{grid-template-columns:1fr;}
+  .mission-photo{aspect-ratio:16/9;}
+  .beliefs-grid{grid-template-columns:1fr 1fr;}
+  .leader-grid{grid-template-columns:repeat(2,1fr);}
+  .tl-item{grid-template-columns:60px 1fr;gap:16px;}
+  .tl-year{font-size:22px;}
+}
+@media(max-width:480px){
+  .beliefs-grid{grid-template-columns:1fr;}
+  .leader-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<script src="header.js"></script>
+<div class="page-masthead"><div class="container"><span class="eyebrow">Who We Are</span><h1>About ICANJ</h1><p>A congregation shaped by Scripture, rooted in community, and open to all.</p></div></div>
+
+<section class="section" style="background:var(--bg-white);">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="mission-photo">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=1000&fit=crop&q=80" alt="ICANJ Community" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="mission-photo-placeholder"><span>📷</span>Add a photo of your church community here<br/><small style="color:#bbb;font-size:11px;margin-top:6px;display:block;">Recommended: 800×1000px</small></div>
+      </div>
+      <div>
+        <span class="eyebrow">Our Purpose</span>
+        <h2 class="section-title">Our Mission</h2>
+        <p class="section-body">ICANJ is a welcoming community in Hackensack, NJ — a place to find hope, build real relationships, and grow at your own pace. We've been rooted in northern New Jersey for over 25 years.</p>
+        <p class="section-body" style="margin-top:14px;">Multigenerational and multicultural, we honour our Indian heritage while remaining open to every person who walks through our doors — wherever they're starting from.</p>
+      </div>
+      <div>
+        <div class="value-list">
+          <div class="value-row"><div class="vr-dot"></div><div><div class="vr-title">Rooted in the Word</div><div class="vr-body">Every sermon, decision, and programme is measured against Scripture alone.</div></div></div>
+          <div class="value-row"><div class="vr-dot"></div><div><div class="vr-title">Gathered to Glorify</div><div class="vr-body">We come to encounter God — not to observe a religious performance.</div></div></div>
+          <div class="value-row"><div class="vr-dot"></div><div><div class="vr-title">Better Together</div><div class="vr-body">Authentic relationships built on love, accountability, and mutual encouragement.</div></div></div>
+          <div class="value-row"><div class="vr-dot"></div><div><div class="vr-title">Welcome to All</div><div class="vr-body">Every person who walks through our doors is made in the image of God.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <span class="eyebrow">Doctrine</span>
+    <h2 class="section-title">What We Believe</h2>
+    <p class="section-body" style="max-width:640px;margin-bottom:0;">We're a Bible-believing church. Here's the short version of our core convictions — the foundation everything else is built on.</p>
+    <div class="beliefs-grid">
+      <div class="belief-card"><div class="belief-num">01</div><div class="belief-title">The Bible</div><div class="belief-body">The inspired, inerrant Word of God and the supreme authority for faith and life.</div></div>
+      <div class="belief-card"><div class="belief-num">02</div><div class="belief-title">The Trinity</div><div class="belief-body">One God eternally existing in three persons: Father, Son, and Holy Spirit.</div></div>
+      <div class="belief-card"><div class="belief-num">03</div><div class="belief-title">Jesus Christ</div><div class="belief-body">Fully God and fully man — born of a virgin, sinless, died in our place, rose bodily.</div></div>
+      <div class="belief-card"><div class="belief-num">04</div><div class="belief-title">Salvation</div><div class="belief-body">By grace alone, through faith alone, in Christ alone. Freely given by God.</div></div>
+      <div class="belief-card"><div class="belief-num">05</div><div class="belief-title">The Holy Spirit</div><div class="belief-body">Indwells every believer, produces Scripture's fruit, empowers the Church for mission.</div></div>
+      <div class="belief-card"><div class="belief-num">06</div><div class="belief-title">The Church</div><div class="belief-body">The body of Christ — called to worship, discipleship, fellowship, and mission.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="verse-band"><blockquote><p>"For I am not ashamed of the gospel, for it is the power of God for salvation to everyone who believes."</p><cite>Romans 1 : 16</cite></blockquote></div>
+
+<section class="section" style="background:var(--bg-white);">
+  <div class="container">
+    <span class="eyebrow">Our People</span>
+    <h2 class="section-title">Church Leadership</h2>
+    <div class="leader-grid">
+      <div class="leader-card"><div class="leader-av"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&q=80" alt="Pr Finney Thomas" onerror="this.outerHTML='<div class=\'leader-av\' style=\'background:#e0f7f9;border:3px solid var(--teal);width:96px;height:96px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:var(--teal);\'>FT</div>'"/></div><div class="leader-name">Pr Finney Thomas</div><div class="leader-role">Senior Pastor</div></div>
+      <div class="leader-card"><div class="leader-av" style="background:#e0f7f9;border:3px solid #e0e0e0;color:#aaa;font-size:13px;font-weight:600;">Photo<br/>Soon</div><div class="leader-name">Associate Pastor</div><div class="leader-role">Coming Soon</div></div>
+      <div class="leader-card"><div class="leader-av" style="background:#e0f7f9;border:3px solid #e0e0e0;color:#aaa;font-size:13px;font-weight:600;">Photo<br/>Soon</div><div class="leader-name">Worship Leader</div><div class="leader-role">Worship Team</div></div>
+      <div class="leader-card"><div class="leader-av" style="background:#e0f7f9;border:3px solid #e0e0e0;color:#aaa;font-size:13px;font-weight:600;">Photo<br/>Soon</div><div class="leader-name">Youth Director</div><div class="leader-role">Youth Ministry</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container" style="max-width:800px;">
+    <span class="eyebrow">Our History</span>
+    <h2 class="section-title">Our Story</h2>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-year">1998</div><div><div class="tl-title">Foundations Laid</div><div class="tl-body">A small group of Indian Christian families in Hackensack began gathering in homes for worship and prayer, planting the seed of what would become ICANJ.</div></div></div>
+      <div class="tl-item"><div class="tl-year">2003</div><div><div class="tl-title">First Permanent Home</div><div class="tl-body">ICANJ was formally established and moved into its first dedicated meeting space in northern New Jersey, marking a new chapter of growth.</div></div></div>
+      <div class="tl-item"><div class="tl-year">2010</div><div><div class="tl-title">Growth &amp; Expansion</div><div class="tl-body">Membership grew substantially. Dedicated children's and youth ministries were launched to serve every generation with intentional discipleship.</div></div></div>
+      <div class="tl-item"><div class="tl-year">2024</div><div><div class="tl-title">Sermons Go Online</div><div class="tl-body">Weekly Bible study teaching became available on Spotify and Apple Podcasts, extending our reach well beyond the walls of our Hackensack campus.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<script src="footer.js"></script>
+<script src="color-manager-widget.js"></script>
+</body>
+</html>
