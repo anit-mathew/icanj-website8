@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Service Times – ICANJ</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.st-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:36px;}
+.st-card{background:var(--bg-white);border:1px solid var(--border);border-radius:14px;padding:32px;}
+.st-day{font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+.st-name{font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:4px;}
+.st-time{font-size:34px;font-weight:800;color:var(--teal);letter-spacing:-0.02em;margin:8px 0;}
+.st-note{font-size:13px;color:#666;line-height:1.65;}
+.st-divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
+.st-sub-row{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;}
+.st-sub-time{font-size:15px;font-weight:700;color:var(--teal);min-width:130px;}
+.st-sub-label{font-size:14px;color:#444;}
+@media(max-width:768px){.st-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="header.js"></script>
+<div class="page-masthead"><div class="container"><span class="eyebrow">Join Us</span><h1>Service Times</h1><p>315 State St, Hackensack, NJ — Sundays</p></div></div>
+
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="st-grid">
+
+      <div class="st-card">
+        <div class="st-day">Every Sunday</div>
+        <div class="st-name">Sunday Morning</div>
+        <div class="st-time">9:15 – 10:50 AM</div>
+        <hr class="st-divider"/>
+        <div class="st-sub-row"><span class="st-sub-time">9:15 – 9:50 AM</span><span class="st-sub-label">Sunday School — all age groups</span></div>
+        <div class="st-sub-row"><span class="st-sub-time">9:50 AM</span><span class="st-sub-label">Worship Service</span></div>
+        <div class="st-note" style="margin-top:14px;">Kids Ministry runs during the worship service. Check in your children at the Kids Ministry desk when you arrive.</div>
+      </div>
+
+      <div class="st-card">
+        <div class="st-day">Location</div>
+        <div class="st-name">Find Us</div>
+        <div style="margin:16px 0;background:var(--bg-soft);border-radius:10px;height:180px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);">
+          <span style="font-size:13px;color:#888;">Map placeholder</span>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:6px;">315 State St, Hackensack, NJ</div>
+        <a href="https://maps.google.com/?q=315+State+St+Hackensack+NJ" target="_blank" class="btn btn-primary btn-arrow" style="margin-top:12px;">Get Directions</a>
+      </div>
+
+    </div>
+
+    <div style="margin-top:32px;text-align:center;">
+      <a href="visit.html" class="btn btn-dark btn-arrow">Plan Your Visit</a>
+    </div>
+  </div>
+</section>
+
+<script src="footer.js"></script>
+<script src="color-manager-widget.js"></script>
+</body>
+</html>

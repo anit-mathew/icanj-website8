@@ -20,16 +20,29 @@
 .hero-scroll-line{width:1px;height:40px;background:rgba(255,255,255,0.15);}
 .hero-scroll span{font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.2);}
 
-/* NEW HERE STRIP */
-.new-here-strip{background:var(--teal);}
-.new-here-inner{max-width:1200px;margin:0 auto;padding:0 52px;display:grid;grid-template-columns:auto 1px 1fr 1px 1fr 1px 1fr;align-items:stretch;}
-.nh-label{padding:22px 32px 22px 0;display:flex;align-items:center;}
-.nh-label span{font-size:11px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.75);}
-.nh-sep{background:rgba(255,255,255,0.2);}
-.nh-item{padding:22px 28px;display:flex;align-items:center;gap:14px;}
-.nh-icon{font-size:20px;flex-shrink:0;}
-.nh-text-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:3px;}
-.nh-text-val{font-size:14px;font-weight:700;color:#fff;}
+/* UPCOMING EVENTS STRIP */
+.events-strip{background:var(--teal);overflow:hidden;}
+.events-strip-inner{max-width:1200px;margin:0 auto;padding:0 52px;display:grid;grid-template-columns:auto 1px 1fr;align-items:stretch;min-height:72px;}
+.es-label{padding:18px 32px 18px 0;display:flex;align-items:center;gap:10px;white-space:nowrap;}
+.es-label span{font-size:11px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.85);}
+.es-sep{background:rgba(255,255,255,0.25);}
+.es-events{display:flex;align-items:stretch;overflow:hidden;}
+.es-event{display:flex;align-items:center;gap:14px;padding:16px 28px;border-right:1px solid rgba(255,255,255,0.2);flex-shrink:0;text-decoration:none;transition:background 0.2s;}
+.es-event:hover{background:rgba(255,255,255,0.1);}
+.es-event-date{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:2px;}
+.es-event-name{font-size:14px;font-weight:700;color:#fff;}
+.es-event-loc{font-size:11px;color:rgba(255,255,255,0.65);margin-top:1px;}
+.es-loading{display:flex;align-items:center;padding:0 28px;color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;}
+.es-all{display:flex;align-items:center;padding:0 28px;white-space:nowrap;}
+.es-all a{font-size:11px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.85);text-decoration:none;}
+.es-all a:hover{color:#fff;}
+@media(max-width:1024px){
+  .events-strip-inner{grid-template-columns:1fr;padding:0;}
+  .es-label{padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,0.2);}
+  .es-events{flex-direction:column;overflow:visible;}
+  .es-event{border-right:none;border-bottom:1px solid rgba(255,255,255,0.15);padding:12px 16px;}
+  .es-all{padding:10px 16px;}
+}
 
 /* WHAT TO EXPECT */
 .expect-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px;}
@@ -108,9 +121,9 @@
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h1>Belong first.<br> <em>Believe</em> boldly</h1>
-    <p class="hero-sub">You don't need to have it all figured out. Come as you are.</p>
-    <div class="hero-location">📍 Hackensack, New Jersey &nbsp;·&nbsp; Sundays at 10:00 AM</div>
+    <h1>Welcome to ICANJ.<br><em>You belong here.</em></h1>
+    <p class="hero-sub">Connecting generations. Transforming the world.</p>
+    <div class="hero-location">📍 Join us this Sunday at 315 State St, Hackensack, NJ &nbsp;·&nbsp; <a href="service-times.html" style="color:var(--teal);text-decoration:underline;font-weight:700;">Service Times</a></div>
     <div class="hero-btns">
       <a href="visit.html" class="btn btn-primary btn-arrow">Plan Your Visit</a>
       <a href="sermons.html" class="btn btn-outline-light">Watch Online</a>
@@ -119,27 +132,61 @@
   <div class="hero-scroll"><div class="hero-scroll-line"></div><span>Scroll</span></div>
 </section>
 
-<!-- ══ NEW HERE STRIP — key info visible immediately ══ -->
-<div class="new-here-strip">
-  <div class="new-here-inner">
-    <div class="nh-label"><span>New Here?</span></div>
-    <div class="nh-sep"></div>
-    <div class="nh-item">
-      <div class="nh-icon">📍</div>
-      <div><div class="nh-text-label">Location</div><div class="nh-text-val">Hackensack, NJ</div></div>
-    </div>
-    <div class="nh-sep"></div>
-    <div class="nh-item">
-      <div class="nh-icon">⏰</div>
-      <div><div class="nh-text-label">Sundays</div><div class="nh-text-val">10:00 AM &amp; 12:30 PM</div></div>
-    </div>
-    <div class="nh-sep"></div>
-    <div class="nh-item">
-      <div class="nh-icon">👧</div>
-      <div><div class="nh-text-label">Kids Program</div><div class="nh-text-val">Ages 4+ at 10 AM</div></div>
+<!-- ══ UPCOMING EVENTS STRIP (Google Calendar) ══ -->
+<div class="events-strip">
+  <div class="events-strip-inner">
+    <div class="es-label"><span>📅 Upcoming Events</span></div>
+    <div class="es-sep"></div>
+    <div style="display:flex;align-items:stretch;overflow:hidden;flex:1;" id="esRow">
+      <div class="es-loading" id="esLoading">Loading events…</div>
     </div>
   </div>
 </div>
+<script>
+(function(){
+  // Google Calendar public JSON feed
+  // Replace CALENDAR_ID with your public Google Calendar ID (e.g. icanj.church@gmail.com or the numeric ID)
+  const CAL_ID = encodeURIComponent('CALENDAR_ID_HERE');
+  const API_KEY = 'GOOGLE_API_KEY_HERE';
+  const now = new Date().toISOString();
+  const url = `https://www.googleapis.com/calendar/v3/calendars/${CAL_ID}/events?key=${API_KEY}&orderBy=startTime&singleEvents=true&timeMin=${now}&maxResults=4&fields=items(summary,start,end,location,htmlLink)`;
+
+  const row = document.getElementById('esRow');
+  const loading = document.getElementById('esLoading');
+
+  fetch(url)
+    .then(r => r.json())
+    .then(data => {
+      loading.remove();
+      const items = (data.items || []).slice(0, 3);
+      if (!items.length) {
+        row.innerHTML = '<div class="es-loading">No upcoming events — check back soon!</div>';
+        return;
+      }
+      items.forEach(ev => {
+        const dt = ev.start.dateTime || ev.start.date;
+        const d = new Date(dt);
+        const dateStr = d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+        const timeStr = ev.start.dateTime ? d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) : 'All Day';
+        const loc = ev.location ? ev.location.split(',')[0] : '';
+        const el = document.createElement('a');
+        el.href = ev.htmlLink || 'events.html';
+        el.target = '_blank';
+        el.className = 'es-event';
+        el.innerHTML = `<div><div class="es-event-date">${dateStr} · ${timeStr}</div><div class="es-event-name">${ev.summary}</div>${loc ? `<div class="es-event-loc">📍 ${loc}</div>` : ''}</div>`;
+        row.appendChild(el);
+      });
+      // "See all" link
+      const all = document.createElement('div');
+      all.className = 'es-all';
+      all.innerHTML = '<a href="events.html">See All →</a>';
+      row.appendChild(all);
+    })
+    .catch(() => {
+      loading.textContent = 'See our events page for upcoming gatherings.';
+    });
+})();
+</script>
 
 <!-- ══ WHAT TO EXPECT ══ -->
 <section class="section" style="background:var(--bg-soft);">

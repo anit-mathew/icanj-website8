@@ -2,7 +2,6 @@
   const path = window.location.pathname.split('/').pop() || 'index.html';
   const links = [
     { href:'index.html',      label:'Home' },
-    { href:'visit.html',      label:'Plan Your Visit' },
     { href:'sermons.html',    label:'Sermons' },
     { href:'about.html',      label:'About' },
     { href:'ministries.html', label:'Ministries' },

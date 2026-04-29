@@ -12,10 +12,10 @@
   --teal-dark:   #00a8b5;
   --teal-light:  rgba(0,197,205,0.12);
 
-  --bg:          #C8C8C8;
-  --bg-soft:     #D4D4D4;
-  --bg-card:     #DEDEDE;
-  --bg-white:    #EBEBEB;
+  --bg:          #ffffff;
+  --bg-soft:     #f4f4f4;
+  --bg-card:     #f9f9f9;
+  --bg-white:    #ffffff;
 
   --ink:         #1a1a1a;
   --body:        #333333;
@@ -46,7 +46,7 @@ img { max-width:100%; display:block; }
 
 /* ── HEADER ── */
 .site-header {
-  background:rgba(200,200,200,0.97);
+  background:rgba(255,255,255,0.97);
   backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border);
   position:sticky; top:0; z-index:200;
